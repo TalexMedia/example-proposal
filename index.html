@@ -1187,7 +1187,7 @@ body{background:var(--bg);min-height:100vh}
   <div class="cta-block">
     <div class="cta-eyebrow">The Next Step</div>
     <h2 class="disp cta-headline">Ready to Build Your Legend?</h2>
-    <p class="cta-sub">Accepting this proposal takes three steps. We'll email you a copy for your records after each one.</p>
+    <p class="cta-sub">Accepting this proposal takes two steps. We'll email you a copy for your records after each one.</p>
 
     <div class="accept-flow" id="accept-flow">
 
@@ -1200,22 +1200,13 @@ body{background:var(--bg);min-height:100vh}
         <button type="button" class="as-action" onclick="acceptProposal()">Accept</button>
       </div>
 
-      <div class="accept-step is-locked" data-step="2" id="step-sign">
+      <div class="accept-step is-locked" data-step="2" id="step-book">
         <div class="as-num"><span class="as-num-txt">2</span></div>
         <div class="as-body">
-          <div class="as-title">Sign Contract</div>
-          <div class="as-desc">Review and e-sign the engagement agreement.</div>
+          <div class="as-title">Book Onboarding Call</div>
+          <div class="as-desc">Confirm deliverables and finalize the contract on a call with Tom.</div>
         </div>
-        <a class="as-action" href="#demo-contract" target="_blank" rel="noopener" onclick="markSigned()">Sign →</a>
-      </div>
-
-      <div class="accept-step is-locked" data-step="3" id="step-pay">
-        <div class="as-num"><span class="as-num-txt">3</span></div>
-        <div class="as-body">
-          <div class="as-title">Complete First Payment</div>
-          <div class="as-desc">Pay month one to kick off the engagement.</div>
-        </div>
-        <a class="as-action" href="#demo-payment" target="_blank" rel="noopener" onclick="markPaid()">Pay →</a>
+        <a class="as-action" href="{{CALENDLY_LINK}}" target="_blank" rel="noopener" onclick="markBooked()">Book →</a>
       </div>
 
     </div>
@@ -1278,22 +1269,16 @@ function fireWebhook(eventName){
 
 function acceptProposal(){
   fireWebhook("proposal_accepted");
-  advance("step-accept", "step-sign");
+  advance("step-accept", "step-book");
 }
 
-function markSigned(){
-  fireWebhook("contract_signed");
-  // Slight delay so the click navigates first, then UI updates on return
-  setTimeout(function(){ advance("step-sign", "step-pay"); }, 300);
-}
-
-function markPaid(){
-  fireWebhook("payment_initiated");
+function markBooked(){
+  fireWebhook("onboarding_call_booked");
   setTimeout(function(){
-    var payEl = document.getElementById("step-pay");
-    if (payEl){
-      payEl.classList.remove("is-active");
-      payEl.classList.add("is-done");
+    var bookEl = document.getElementById("step-book");
+    if (bookEl){
+      bookEl.classList.remove("is-active");
+      bookEl.classList.add("is-done");
     }
   }, 300);
 }
