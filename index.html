@@ -1293,16 +1293,20 @@ window.addEventListener("load", function(){
 });
 </script>
 
-<!--
-  OPEN-TRACKING PLACEHOLDER, see Proposal/TRACKING.md
-  Leave commented out during build/review. The deploy step replaces this
-  comment block with the live tracking script only when the proposal is
-  finalized and ready to send to the client.
-
-  Replacement block (uncomment and fill in at deploy time):
-
-  <script>if(!sessionStorage.getItem("_t")){sessionStorage.setItem("_t","1");fetch("{{TRACKER_URL}}?prospect={{PROSPECT_NAME_URLENCODED}}&page={{REPO_SLUG}}")}</script>
--->
+<!-- Open tracking -->
+<script>
+(function(){
+  try {
+    if (sessionStorage.getItem("_talex_opened")) return;
+    sessionStorage.setItem("_talex_opened", "1");
+    var u = "https://script.google.com/macros/s/AKfycbxIz5SVcQ2c1IpirdlGIxDzD-4yNOhkI077QBQJQXwadub0wS5hbc-vtjKzAaMJ6u3S3g/exec?action=log_open" +
+            "&slug=example-proposal" +
+            "&referer=" + encodeURIComponent(document.referrer || "") +
+            "&ua=" + encodeURIComponent(navigator.userAgent || "");
+    fetch(u, { method: "GET", mode: "no-cors" });
+  } catch(e) {}
+})();
+</script>
 
 </body>
 </html>
